@@ -1,4 +1,28 @@
-#PL/SQL APEX Library for Deutsche Bahn's Timetable API
+**Table of Contents**
+
+- [PL/SQL APEX Library for Deutsche Bahn's Timetable / Fahrplan API](#plsql-apex-library-for-deutsche-bahns-timetable--fahrplan-api)
+	- [Demo](#demo)
+	- [Changelog](#changelog)
+	- [Installation](#installation)
+		- [Database ACL](#database-acl)
+		- [Oracle SSL Wallet](#oracle-ssl-wallet)
+		- [Compile the PL/SQL package](#compile-the-plsql-package)
+	- [Usage](#usage)
+	  - [Location Service of Fahrplan API](#location-service-of-fahrplan-api)
+      - [Plain JSON response](#plain-json-response)
+      - [APEX collections](#apex-collections)
+      - [Pipelined Function for use in table function](#pipelined-function-for-use-in-table-function)
+    - [Stationboard services (Departure & Arrival Board) of Fahrplan API](#stationboard-services-departure--arrival-board-of-fahrplan-api)
+      - [Plain JSON response](#plain-json-response-1)
+      - [APEX collections](#apex-collections-1)
+      - [Pipelined Function for use in table function](#pipelined-function-for-use-in-table-function-1)
+    - [Journey detail service of Fahrplan API](#journey-detail-service-of-fahrplan-api)
+      - [Plain JSON response](#plain-json-response-2)
+      - [APEX collections](#apex-collections-2)
+      - [Pipelined Function for use in table function](#pipelined-function-for-use-in-table-function-2)
+	- [License](#license)
+
+#PL/SQL APEX Library for Deutsche Bahn's Timetable / Fahrplan API
 This PL/SQL package is a native wrapper for Oracle Database, especially when combined with Oracle APEX,
 for the [Deutsche Bahn Fahrplan / Timetable REST API](http://data.deutschebahn.com/apis/fahrplan).
 
@@ -7,7 +31,7 @@ It web service requests are based on APEX_WEB_SERVICE package which comes with A
 The package include all web service functions which are included in the Fahrplan API. The functions can be summarized to:
 
 - Functions that will return the plain JSON content of the web service response
-- Functions that creates are APEX collection, based on the web service response
+- Functions that create a APEX collection, based on the web service response
 - Functions that will return the web service response pipelined, for using in table functions
 
 
@@ -15,8 +39,8 @@ The package include all web service functions which are included in the Fahrplan
 A demo application is available under
 https://apex.danielh.de/ords/f?p=BAHN_FAHRPLAN
 
-And of course you find a APEX export of it in "demo" folder. To use it just import it and then go through the Installation steps.
-Under Shared Components --> Edit Application Definition --> Substitutions set "F_API_AUTH_KEY" to your API Key which you get from Deutsche Bahn.
+And of course you find a APEX export of it in "demo" folder. To use it just import the app and then go through the I+installation steps below.
+Under Shared Components --> Edit Application Definition --> Substitutions Strings, set "F_API_AUTH_KEY" to your API Key which you get from Deutsche Bahn.
 
 
 ##Changelog
@@ -68,7 +92,7 @@ END;
 ###Oracle SSL Wallet
 To communicate with the Deutsche Bahn Fahrplan API (open-api.bahn.de) over HTTPS, a SSL Wallet is needed for database which contains the certificates from open-api.bahn.de.
 
-As of time writing this the Fahrplan API is still available unencrypted over HTTP, but this will change an monday 2016-02-29. Then I will include a ready to go wallet here on Github.
+**As of time writing this the Fahrplan API is only available unencrypted over HTTP, but this will change an monday 2016-02-29. Then I will include a ready to go wallet here on Github.**
 
 For manually creating the wallet, either use Oracle Wallet Manager or create the wallet with openssl utils like:
 - Grab the certificates from open-api.bahn.de via your browser
@@ -105,6 +129,7 @@ BEGIN
                                                i_search_string  => 'Regensburg',
                                                i_apex_coll_name => 'STATIONS'); -- default 'STATIONS'
 END;
+--
 -- Select from collection
 SELECT ac.c001 AS station_name,
        ac.c002 AS station_id,
@@ -122,6 +147,7 @@ BEGIN
                                                i_search_string  => 'Regensburg',
                                                i_apex_coll_name => 'LOCATIONS'); -- default 'LOCATIONS'
 END;
+--
 -- Select from collection
 SELECT ac.c001 AS loc_name,
        ac.c002 AS loc_type,
@@ -181,6 +207,7 @@ BEGIN
                                              i_date_time      => NULL, -- valid date with or without time
                                              i_apex_coll_name => 'DEPARTURE_BOARD'); -- default 'DEPARTURE_BOARD'
 END;
+--
 -- Select from collection
 SELECT ac.c001 AS train_name,
        ac.c002 AS train_type,
@@ -204,6 +231,7 @@ BEGIN
                                            i_date_time      => NULL, -- valid date with or without time
                                            i_apex_coll_name => 'ARRIVAL_BOARD'); -- default 'ARRIVAL_BOARD'
 END;
+--
 -- Select from collection
 SELECT ac.c001 AS train_name,
        ac.c002 AS train_type,
@@ -267,6 +295,7 @@ BEGIN
   bahn_fahrplan_api.get_journey_detail_apex(i_journeydetailref_url => 'http://open-api.bahn.de/....', -- journeydetailref from departure / arrival response
                                             i_apex_coll_name       => 'JOURNEY_DETAIL'); -- default 'JOURNEY_DETAIL'
 END;
+--
 -- Select from collection
 SELECT ac.c001 AS station_name,
        ac.c002 AS station_id,
