@@ -8,7 +8,7 @@
 		- [Oracle SSL Wallet](#oracle-ssl-wallet)
 		- [Compile the PL/SQL package](#compile-the-plsql-package)
 	- [Usage](#usage)
-	  - [Location Service of Fahrplan API](#location-service-of-fahrplan-api)
+    - [Location Service of Fahrplan API](#location-service-of-fahrplan-api)
       - [Plain JSON response](#plain-json-response)
       - [APEX collections](#apex-collections)
       - [Pipelined Function for use in table function](#pipelined-function-for-use-in-table-function)
