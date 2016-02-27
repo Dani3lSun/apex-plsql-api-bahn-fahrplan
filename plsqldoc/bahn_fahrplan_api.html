@@ -1,0 +1,1228 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+ <LINK REL="STYLESHEET" TYPE="text/css" HREF="plsqldoc.css">
+ <TITLE>Package bahn_fahrplan_api</TITLE>
+ <META name="object" content="PACKAGE">
+ <META name="name" content="bahn_fahrplan_api">
+ <META name="description" content="API Package Spec for Deutsche Bahn Fahrplan REST API Source: http://data.deutschebahn.com/apis/fahrplan/">
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%"><TR>
+<TD><P ALIGN="LEFT"><STRONG><SMALL></SMALL></STRONG></TD>
+<TD><P ALIGN="RIGHT"><STRONG><SMALL><A HREF="index.html">index</A></SMALL></STRONG></TD>
+</TR></TABLE>
+<TABLE CLASS="MAIN_TABLE"><TR><TD CLASS="DESC_TEXT">
+<P CLASS="MAIN_TITLE">Package bahn_fahrplan_api</P>
+API Package Spec for Deutsche Bahn Fahrplan REST API Source: <A HREF="http://data.deutschebahn.com/apis/fahrplan/">http://data.deutschebahn.com/apis/fahrplan/</A>
+
+<BR>
+</TD></TR></TABLE>
+<HR>
+<A NAME="Program units"></A>
+<TABLE CLASS="SUB_TABLE"><TR><TD CLASS="SUB_TITLE">
+Program units
+</TD></TR></TABLE>
+<TABLE CLASS="SUB_TABLE">
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#check_error_http_status">check_error_http_status</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Public Functions and Procedures
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#check_error_fahrplan_api">check_error_fahrplan_api</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Check DB Fahrplan API Server response for error
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_name_json">get_location_name_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan Location.name Service REST Call - Search for location and stations
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_json">get_departure_board_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan departureBoard Service REST Call - departure board for a given station (id) and date/time
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_json">get_arrival_board_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan departureBoard Service REST Call - arrival board for a given station (id) and date/time
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_json">get_journey_detail_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan journeyDetail Service REST Call - information about the complete route of a vehicle Gets journeydetailref URL from departure or arrival board
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_stations_apex">get_location_stations_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan Location.name stations (StopLocation) inserted in APEX Collection
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_otherloc_apex">get_location_otherloc_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan Location.name other locations (CoordLocation) inserted in APEX Collection
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_apex">get_departure_board_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan departureBoard inserted in APEX Collection
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_apex">get_arrival_board_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan ArrivalBoard inserted in APEX Collection
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_apex">get_journey_detail_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan journeyDetail Service inserted in APEX Collection
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_stations_pipe">get_location_stations_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan Location.name stations (StopLocation) as pipelined function
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_otherloc_pipe">get_location_otherloc_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan Location.name other locations (CoordLocation) as pipelined function
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_pipe">get_departure_board_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan departureBoard as pipelined function
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_pipe">get_arrival_board_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan ArrivalBoard as pipelined function
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_pipe">get_journey_detail_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan journeyDetail Service as pipelined function
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Types"></A>
+<TABLE CLASS="SUB_TABLE"><TR><TD CLASS="SUB_TITLE">
+Types
+</TD></TR></TABLE>
+<TABLE CLASS="SUB_TABLE">
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_location_stations_rec">t_location_stations_rec</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Types and Records location stations
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_location_stations_tab">t_location_stations_tab</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_location_otherloc_rec">t_location_otherloc_rec</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+locations other locations
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_location_otherloc_tab">t_location_otherloc_tab</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_departure_rec">t_departure_rec</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+departure board
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_departure_tab">t_departure_tab</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_arrival_rec">t_arrival_rec</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+arrival board
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_arrival_tab">t_arrival_tab</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_journey_rec">t_journey_rec</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+journey detail
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#t_journey_tab">t_journey_tab</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Variables"></A>
+<TABLE CLASS="SUB_TABLE"><TR><TD CLASS="SUB_TITLE">
+Variables
+</TD></TR></TABLE>
+<TABLE CLASS="SUB_TABLE">
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_fahrplan_host">pub_fahrplan_host</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Fahrplan REST API defaults
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_fahrplan_rest_path">pub_fahrplan_rest_path</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_fahrplan_rest_proto">pub_fahrplan_rest_proto</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+http or https
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_fahrplan_base_url">pub_fahrplan_base_url</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_ssl_wallet_path">pub_ssl_wallet_path</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#pub_ssl_wallet_pwd">pub_ssl_wallet_pwd</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Constants"></A>
+<TABLE CLASS="SUB_TABLE"><TR><TD CLASS="SUB_TITLE">
+Constants
+</TD></TR></TABLE>
+<TABLE CLASS="SUB_TABLE">
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#error_http_status_code">error_http_status_code</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Exceptions Error Codes
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#error_db_fahrplan_code">error_db_fahrplan_code</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="pub_fahrplan_host"></A>
+<P CLASS="TYPE_TITLE">
+pub_fahrplan_host
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_fahrplan_host       VARCHAR2(50) := 'open-api.bahn.de';
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan REST API defaults<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="pub_fahrplan_rest_path"></A>
+<P CLASS="TYPE_TITLE">
+pub_fahrplan_rest_path
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_fahrplan_rest_path  VARCHAR2(100) := '/bin/rest.exe';
+</PRE>
+<HR>
+<A NAME="pub_fahrplan_rest_proto"></A>
+<P CLASS="TYPE_TITLE">
+pub_fahrplan_rest_proto
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_fahrplan_rest_proto VARCHAR2(50) := 'http';
+</PRE>
+<P CLASS="DESC_TEXT">
+http or https<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="pub_fahrplan_base_url"></A>
+<P CLASS="TYPE_TITLE">
+pub_fahrplan_base_url
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_fahrplan_base_url   VARCHAR2(200) := <A HREF=#pub_fahrplan_rest_proto>bahn_fahrplan_api.pub_fahrplan_rest_proto</A> ||
+                                         '://' ||
+                                         <A HREF=#pub_fahrplan_host>bahn_fahrplan_api.pub_fahrplan_host</A> ||
+                                         bahn_fahrplan_api.pub_fahrplan_rest_path;
+</PRE>
+<HR>
+<A NAME="pub_ssl_wallet_path"></A>
+<P CLASS="TYPE_TITLE">
+pub_ssl_wallet_path
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_ssl_wallet_path     VARCHAR2(200) := 'file:/path/to/wallet';
+</PRE>
+<HR>
+<A NAME="pub_ssl_wallet_pwd"></A>
+<P CLASS="TYPE_TITLE">
+pub_ssl_wallet_pwd
+</P>
+<PRE CLASS="DECL_TEXT">
+pub_ssl_wallet_pwd      VARCHAR2(100) := 'walletpwd';
+</PRE>
+<HR>
+<A NAME="error_http_status_code"></A>
+<P CLASS="TYPE_TITLE">
+error_http_status_code
+</P>
+<PRE CLASS="DECL_TEXT">
+error_http_status_code CONSTANT NUMBER := -20002;
+</PRE>
+<P CLASS="DESC_TEXT">
+Exceptions Error Codes<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="error_db_fahrplan_code"></A>
+<P CLASS="TYPE_TITLE">
+error_db_fahrplan_code
+</P>
+<PRE CLASS="DECL_TEXT">
+error_db_fahrplan_code CONSTANT NUMBER := -20003;
+</PRE>
+<HR>
+<A NAME="t_location_stations_rec"></A>
+<P CLASS="TYPE_TITLE">
+t_location_stations_rec
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_location_stations_rec IS RECORD(
+  station_name VARCHAR2(500),
+  station_id   VARCHAR2(100),
+  longitude    VARCHAR2(100),
+  latitude     VARCHAR2(100));
+</PRE>
+<P CLASS="DESC_TEXT">
+Types and Records location stations<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="t_location_stations_tab"></A>
+<P CLASS="TYPE_TITLE">
+t_location_stations_tab
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_location_stations_tab IS TABLE OF t_location_stations_rec;
+</PRE>
+<HR>
+<A NAME="t_location_otherloc_rec"></A>
+<P CLASS="TYPE_TITLE">
+t_location_otherloc_rec
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_location_otherloc_rec IS RECORD(
+  loc_name  VARCHAR2(500),
+  loc_type  VARCHAR2(100),
+  longitude VARCHAR2(100),
+  latitude  VARCHAR2(100));
+</PRE>
+<P CLASS="DESC_TEXT">
+locations other locations<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="t_location_otherloc_tab"></A>
+<P CLASS="TYPE_TITLE">
+t_location_otherloc_tab
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_location_otherloc_tab IS TABLE OF t_location_otherloc_rec;
+</PRE>
+<HR>
+<A NAME="t_departure_rec"></A>
+<P CLASS="TYPE_TITLE">
+t_departure_rec
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_departure_rec IS RECORD(
+  train_name       VARCHAR2(100),
+  train_type       VARCHAR2(100),
+  stop_id          VARCHAR2(100),
+  stop_name        VARCHAR2(500),
+  stop_time        VARCHAR2(100),
+  stop_date        VARCHAR2(100),
+  direction        VARCHAR2(500),
+  track            VARCHAR2(100),
+  journeydetailref VARCHAR2(500));
+</PRE>
+<P CLASS="DESC_TEXT">
+departure board<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="t_departure_tab"></A>
+<P CLASS="TYPE_TITLE">
+t_departure_tab
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_departure_tab IS TABLE OF t_departure_rec;
+</PRE>
+<HR>
+<A NAME="t_arrival_rec"></A>
+<P CLASS="TYPE_TITLE">
+t_arrival_rec
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_arrival_rec IS RECORD(
+  train_name       VARCHAR2(100),
+  train_type       VARCHAR2(100),
+  stop_id          VARCHAR2(100),
+  stop_name        VARCHAR2(500),
+  stop_time        VARCHAR2(100),
+  stop_date        VARCHAR2(100),
+  direction        VARCHAR2(500),
+  track            VARCHAR2(100),
+  journeydetailref VARCHAR2(500));
+</PRE>
+<P CLASS="DESC_TEXT">
+arrival board<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="t_arrival_tab"></A>
+<P CLASS="TYPE_TITLE">
+t_arrival_tab
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_arrival_tab IS TABLE OF t_arrival_rec;
+</PRE>
+<HR>
+<A NAME="t_journey_rec"></A>
+<P CLASS="TYPE_TITLE">
+t_journey_rec
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_journey_rec IS RECORD(
+  station_name VARCHAR2(500),
+  station_id   VARCHAR2(100),
+  longitude    VARCHAR2(100),
+  latitude     VARCHAR2(100),
+  arr_time     VARCHAR2(100),
+  arr_date     VARCHAR2(100),
+  dep_time     VARCHAR2(100),
+  dep_date     VARCHAR2(100),
+  track        VARCHAR2(100));
+</PRE>
+<P CLASS="DESC_TEXT">
+journey detail<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="t_journey_tab"></A>
+<P CLASS="TYPE_TITLE">
+t_journey_tab
+</P>
+<PRE CLASS="DECL_TEXT">
+TYPE t_journey_tab IS TABLE OF t_journey_rec;
+</PRE>
+<HR>
+<A NAME="check_error_http_status"></A>
+<P CLASS="TYPE_TITLE">
+check_error_http_status
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#check_error_http_status">check_error_http_status</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Public Functions and Procedures<br>
+&nbsp;<br>
+Check Server response HTTP error (2XX Status codes)<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="check_error_fahrplan_api"></A>
+<P CLASS="TYPE_TITLE">
+check_error_fahrplan_api
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#check_error_fahrplan_api">check_error_fahrplan_api</A>(i_response_clob IN CLOB)
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Check DB Fahrplan API Server response for error<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_response_clob&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_location_name_json"></A>
+<P CLASS="TYPE_TITLE">
+get_location_name_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_location_name_json">get_location_name_json</A>(i_api_auth_key  IN VARCHAR2,
+                                i_language      IN VARCHAR2 := 'en',
+                                i_search_string IN VARCHAR2) RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan Location.name Service REST Call - Search for location and stations<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_search_string&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+CLOB from REST response<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_departure_board_json"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_departure_board_json">get_departure_board_json</A>(i_api_auth_key IN VARCHAR2,
+                                  i_language     IN VARCHAR2 := 'en',
+                                  i_station_id   IN NUMBER,
+                                  i_date_time    IN DATE := NULL)
+  RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan departureBoard Service REST Call - departure board for a given station (id) and date/time<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+CLOB from REST response<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_arrival_board_json"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_arrival_board_json">get_arrival_board_json</A>(i_api_auth_key IN VARCHAR2,
+                                i_language     IN VARCHAR2 := 'en',
+                                i_station_id   IN NUMBER,
+                                i_date_time    IN DATE := NULL) RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan departureBoard Service REST Call - arrival board for a given station (id) and date/time<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+CLOB from REST response<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_journey_detail_json"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_journey_detail_json">get_journey_detail_json</A>(i_journeydetailref_url IN VARCHAR2)
+  RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan journeyDetail Service REST Call - information about the complete route of a vehicle Gets journeydetailref URL from departure or arrival board<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_journeydetailref_url&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+CLOB from REST response<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_location_stations_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_location_stations_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#get_location_stations_apex">get_location_stations_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                     i_language       IN VARCHAR2 := 'en',
+                                     i_search_string  IN VARCHAR2,
+                                     i_apex_coll_name IN VARCHAR2 := 'STATIONS')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan Location.name stations (StopLocation) inserted in APEX Collection<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_search_string&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_apex_coll_name&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;STATIONS&quot;<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_location_otherloc_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_location_otherloc_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#get_location_otherloc_apex">get_location_otherloc_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                     i_language       IN VARCHAR2 := 'en',
+                                     i_search_string  IN VARCHAR2,
+                                     i_apex_coll_name IN VARCHAR2 := 'LOCATIONS')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan Location.name other locations (CoordLocation) inserted in APEX Collection<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_search_string&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_apex_coll_name&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;LOCATIONS&quot;<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_departure_board_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#get_departure_board_apex">get_departure_board_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                   i_language       IN VARCHAR2 := 'en',
+                                   i_station_id     IN NUMBER,
+                                   i_date_time      IN DATE := NULL,
+                                   i_apex_coll_name IN VARCHAR2 := 'DEPARTURE_BOARD')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan departureBoard inserted in APEX Collection<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_apex_coll_name&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;DEPARTURE_BOARD&quot;<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_arrival_board_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#get_arrival_board_apex">get_arrival_board_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                 i_language       IN VARCHAR2 := 'en',
+                                 i_station_id     IN NUMBER,
+                                 i_date_time      IN DATE := NULL,
+                                 i_apex_coll_name IN VARCHAR2 := 'ARRIVAL_BOARD')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan ArrivalBoard inserted in APEX Collection<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_apex_coll_name&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;ARRIVAL_BOARD&quot;<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_journey_detail_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.body.html#get_journey_detail_apex">get_journey_detail_apex</A>(i_journeydetailref_url IN VARCHAR2,
+                                  i_apex_coll_name       IN VARCHAR2 := 'JOURNEY_DETAIL')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan journeyDetail Service inserted in APEX Collection<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_journeydetailref_url&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_apex_coll_name&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;JOURNEY_DETAIL&quot;<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_location_stations_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_location_stations_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_location_stations_pipe">get_location_stations_pipe</A>(i_api_auth_key  IN VARCHAR2,
+                                    i_language      IN VARCHAR2 := 'en',
+                                    i_search_string IN VARCHAR2)
+  RETURN <A HREF=#t_location_stations_tab>bahn_fahrplan_api.t_location_stations_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan Location.name stations (StopLocation) as pipelined function<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_search_string&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+PIPELINED<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_location_otherloc_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_location_otherloc_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_location_otherloc_pipe">get_location_otherloc_pipe</A>(i_api_auth_key  IN VARCHAR2,
+                                    i_language      IN VARCHAR2 := 'en',
+                                    i_search_string IN VARCHAR2)
+  RETURN <A HREF=#t_location_otherloc_tab>bahn_fahrplan_api.t_location_otherloc_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan Location.name other locations (CoordLocation) as pipelined function<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_search_string&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+PIPELINED<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_departure_board_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_departure_board_pipe">get_departure_board_pipe</A>(i_api_auth_key IN VARCHAR2,
+                                  i_language     IN VARCHAR2 := 'en',
+                                  i_station_id   IN NUMBER,
+                                  i_date_time    IN DATE := NULL)
+  RETURN <A HREF=#t_departure_tab>bahn_fahrplan_api.t_departure_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan departureBoard as pipelined function<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+PIPELINED<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_arrival_board_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_arrival_board_pipe">get_arrival_board_pipe</A>(i_api_auth_key IN VARCHAR2,
+                                i_language     IN VARCHAR2 := 'en',
+                                i_station_id   IN NUMBER,
+                                i_date_time    IN DATE := NULL)
+  RETURN <A HREF=#t_arrival_tab>bahn_fahrplan_api.t_arrival_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan ArrivalBoard as pipelined function<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_api_auth_key&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_language&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+- default &quot;en&quot;<br>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_station_id&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_date_time&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+PIPELINED<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="get_journey_detail_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.body.html#get_journey_detail_pipe">get_journey_detail_pipe</A>(i_journeydetailref_url IN VARCHAR2)
+  RETURN <A HREF=#t_journey_tab>bahn_fahrplan_api.t_journey_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Fahrplan journeyDetail Service as pipelined function<br>
+
+<BR>
+</P>
+<A NAME="Parameters"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Parameters
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+i_journeydetailref_url&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+
+</TD></TR>
+</TABLE>
+<BR>
+<A NAME="Returns"></A>
+<TABLE CLASS="LIST_TABLE"><TR><TD CLASS="LIST_TITLE">
+Returns
+</TD></TR></TABLE>
+<TABLE CLASS="LIST_TABLE">
+<TR><TD VALIGN="TOP" CLASS="LIST_ITEM" WIDTH=1%>
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+PIPELINED<br>
+
+</TD></TR>
+</TABLE>
+<BR>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+</BODY>
+</HTML>

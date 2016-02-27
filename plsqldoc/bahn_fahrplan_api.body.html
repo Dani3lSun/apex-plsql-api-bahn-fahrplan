@@ -1,0 +1,401 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+ <HEAD>
+ <LINK REL="STYLESHEET" TYPE="text/css" HREF="plsqldoc.css">
+ <TITLE>Package body bahn_fahrplan_api</TITLE>
+ <META name="object" content="PACKAGE BODY">
+ <META name="name" content="bahn_fahrplan_api">
+ <META name="description" content="API Package Body for Deutsche Bahn Fahrplan REST API Source: http://data.deutschebahn.com/apis/fahrplan/">
+</HEAD>
+<BODY>
+<TABLE WIDTH="100%"><TR>
+<TD><P ALIGN="LEFT"><STRONG><SMALL></SMALL></STRONG></TD>
+<TD><P ALIGN="RIGHT"><STRONG><SMALL><A HREF="index.html">index</A></SMALL></STRONG></TD>
+</TR></TABLE>
+<TABLE CLASS="MAIN_TABLE"><TR><TD CLASS="DESC_TEXT">
+<P CLASS="MAIN_TITLE">Package body bahn_fahrplan_api</P>
+API Package Body for Deutsche Bahn Fahrplan REST API Source: <A HREF="http://data.deutschebahn.com/apis/fahrplan/">http://data.deutschebahn.com/apis/fahrplan/</A>
+
+<BR>
+</TD></TR></TABLE>
+<HR>
+<A NAME="Program units"></A>
+<TABLE CLASS="SUB_TABLE"><TR><TD CLASS="SUB_TITLE">
+Program units
+</TD></TR></TABLE>
+<TABLE CLASS="SUB_TABLE">
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#check_error_http_status">check_error_http_status</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Check Server response HTTP error (2XX Status codes) Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#check_error_fahrplan_api">check_error_fahrplan_api</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Check DB Fahrplan API Server response for error Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#set_http_headers">set_http_headers</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Set HTTP headers for REST calls Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_name_json">get_location_name_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan Location.name Service REST Call - Search for location and stations Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_json">get_departure_board_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan departureBoard Service REST Call - departure board for a
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_json">get_arrival_board_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan arrivalBoard Service REST Call - arrival board for a
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_json">get_journey_detail_json</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan journeyDetail Service REST Call - information about the complete route of a vehicle
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_stations_apex">get_location_stations_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan Location.name stations (StopLocation) inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_otherloc_apex">get_location_otherloc_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan Location.name other locations (CoordLocation) inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_apex">get_departure_board_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan departureBoard inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_apex">get_arrival_board_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan ArrivalBoard inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_apex">get_journey_detail_apex</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan journeyDetail Service inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_stations_pipe">get_location_stations_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan Location.name stations (StopLocation) as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_location_otherloc_pipe">get_location_otherloc_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan Location.name other locations (CoordLocation) as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_departure_board_pipe">get_departure_board_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan departureBoard as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_arrival_board_pipe">get_arrival_board_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan ArrivalBoard as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+<TR><TD VALIGN="TOP" CLASS="TYPE_ITEM">
+<A HREF="#get_journey_detail_pipe">get_journey_detail_pipe</A>&nbsp;&nbsp;
+</TD><TD CLASS="DESC_TEXT" WIDTH=95%>
+Purpose: Fahrplan journeyDetail Service as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:
+</TD></TR>
+</TABLE>
+<BR>
+<HR>
+<A NAME="check_error_http_status"></A>
+<P CLASS="TYPE_TITLE">
+check_error_http_status
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#check_error_http_status">check_error_http_status</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Check Server response HTTP error (2XX Status codes) Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="check_error_fahrplan_api"></A>
+<P CLASS="TYPE_TITLE">
+check_error_fahrplan_api
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#check_error_fahrplan_api">check_error_fahrplan_api</A>(i_response_clob IN CLOB)
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Check DB Fahrplan API Server response for error Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="set_http_headers"></A>
+<P CLASS="TYPE_TITLE">
+set_http_headers
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE set_http_headers
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Set HTTP headers for REST calls Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_location_name_json"></A>
+<P CLASS="TYPE_TITLE">
+get_location_name_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_location_name_json">get_location_name_json</A>(i_api_auth_key  IN VARCHAR2,
+                                i_language      IN VARCHAR2 := 'en',
+                                i_search_string IN VARCHAR2) RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan Location.name Service REST Call - Search for location and stations Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_departure_board_json"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_departure_board_json">get_departure_board_json</A>(i_api_auth_key IN VARCHAR2,
+                                  i_language     IN VARCHAR2 := 'en',
+                                  i_station_id   IN NUMBER,
+                                  i_date_time    IN DATE := NULL)
+  RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan departureBoard Service REST Call - departure board for a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; given station (id) and date/time<br>
+Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_arrival_board_json"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_arrival_board_json">get_arrival_board_json</A>(i_api_auth_key IN VARCHAR2,
+                                i_language     IN VARCHAR2 := 'en',
+                                i_station_id   IN NUMBER,
+                                i_date_time    IN DATE := NULL) RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan arrivalBoard Service REST Call - arrival board for a<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; given station (id) and date/time<br>
+Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_journey_detail_json"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_json
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_journey_detail_json">get_journey_detail_json</A>(i_journeydetailref_url IN VARCHAR2)
+  RETURN CLOB
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan journeyDetail Service REST Call - information about the complete route of a vehicle<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gets journeydetailref URL from departure or arrival board<br>
+Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_location_stations_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_location_stations_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#get_location_stations_apex">get_location_stations_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                     i_language       IN VARCHAR2 := 'en',
+                                     i_search_string  IN VARCHAR2,
+                                     i_apex_coll_name IN VARCHAR2 := 'STATIONS')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan Location.name stations (StopLocation) inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_location_otherloc_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_location_otherloc_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#get_location_otherloc_apex">get_location_otherloc_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                     i_language       IN VARCHAR2 := 'en',
+                                     i_search_string  IN VARCHAR2,
+                                     i_apex_coll_name IN VARCHAR2 := 'LOCATIONS')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan Location.name other locations (CoordLocation) inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_departure_board_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#get_departure_board_apex">get_departure_board_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                   i_language       IN VARCHAR2 := 'en',
+                                   i_station_id     IN NUMBER,
+                                   i_date_time      IN DATE := NULL,
+                                   i_apex_coll_name IN VARCHAR2 := 'DEPARTURE_BOARD')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan departureBoard inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_arrival_board_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#get_arrival_board_apex">get_arrival_board_apex</A>(i_api_auth_key   IN VARCHAR2,
+                                 i_language       IN VARCHAR2 := 'en',
+                                 i_station_id     IN NUMBER,
+                                 i_date_time      IN DATE := NULL,
+                                 i_apex_coll_name IN VARCHAR2 := 'ARRIVAL_BOARD')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan ArrivalBoard inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 26.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_journey_detail_apex"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_apex
+</P>
+<PRE CLASS="DECL_TEXT">
+PROCEDURE <A HREF="bahn_fahrplan_api.html#get_journey_detail_apex">get_journey_detail_apex</A>(i_journeydetailref_url IN VARCHAR2,
+                                  i_apex_coll_name       IN VARCHAR2 := 'JOURNEY_DETAIL')
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan journeyDetail Service inserted in APEX Collection Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_location_stations_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_location_stations_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_location_stations_pipe">get_location_stations_pipe</A>(i_api_auth_key  IN VARCHAR2,
+                                    i_language      IN VARCHAR2 := 'en',
+                                    i_search_string IN VARCHAR2)
+  RETURN <A HREF="bahn_fahrplan_api.html#t_location_stations_tab">bahn_fahrplan_api.t_location_stations_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan Location.name stations (StopLocation) as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_location_otherloc_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_location_otherloc_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_location_otherloc_pipe">get_location_otherloc_pipe</A>(i_api_auth_key  IN VARCHAR2,
+                                    i_language      IN VARCHAR2 := 'en',
+                                    i_search_string IN VARCHAR2)
+  RETURN <A HREF="bahn_fahrplan_api.html#t_location_otherloc_tab">bahn_fahrplan_api.t_location_otherloc_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan Location.name other locations (CoordLocation) as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_departure_board_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_departure_board_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_departure_board_pipe">get_departure_board_pipe</A>(i_api_auth_key IN VARCHAR2,
+                                  i_language     IN VARCHAR2 := 'en',
+                                  i_station_id   IN NUMBER,
+                                  i_date_time    IN DATE := NULL)
+  RETURN <A HREF="bahn_fahrplan_api.html#t_departure_tab">bahn_fahrplan_api.t_departure_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan departureBoard as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_arrival_board_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_arrival_board_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_arrival_board_pipe">get_arrival_board_pipe</A>(i_api_auth_key IN VARCHAR2,
+                                i_language     IN VARCHAR2 := 'en',
+                                i_station_id   IN NUMBER,
+                                i_date_time    IN DATE := NULL)
+  RETURN <A HREF="bahn_fahrplan_api.html#t_arrival_tab">bahn_fahrplan_api.t_arrival_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan ArrivalBoard as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<HR>
+<A NAME="get_journey_detail_pipe"></A>
+<P CLASS="TYPE_TITLE">
+get_journey_detail_pipe
+</P>
+<PRE CLASS="DECL_TEXT">
+FUNCTION <A HREF="bahn_fahrplan_api.html#get_journey_detail_pipe">get_journey_detail_pipe</A>(i_journeydetailref_url IN VARCHAR2)
+  RETURN <A HREF="bahn_fahrplan_api.html#t_journey_tab">bahn_fahrplan_api.t_journey_tab</A>
+
+</PRE>
+<P CLASS="DESC_TEXT">
+Purpose: Fahrplan journeyDetail Service as pipelined function Author:&nbsp; Daniel Hochleitner Created: 27.02.2016 Changed:<br>
+
+<BR>
+</P>
+<P>&nbsp;</P>
+<P>&nbsp;</P>
+</BODY>
+</HTML>
