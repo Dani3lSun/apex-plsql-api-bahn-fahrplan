@@ -152,7 +152,7 @@ SELECT locations.loc_name,
                                                           i_search_string => 'Regensburg')) locations
 ```
 
-###Stationboard services (Departure & Arrival Board)
+###Stationboard services (Departure & Arrival Board) of Fahrplan API
 ####Plain JSON response
 ```language-sql
 DECLARE
@@ -171,7 +171,7 @@ BEGIN
 END;
 ```
 ####APEX collections
--- Departure board
+- Departure board
 ```language-sql
 -- create collection
 BEGIN
@@ -194,7 +194,7 @@ SELECT ac.c001 AS train_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'DEPARTURE_BOARD'
 ```
--- Arrival board
+- Arrival board
 ```language-sql
 -- create collection
 BEGIN
@@ -218,7 +218,7 @@ SELECT ac.c001 AS train_name,
  WHERE ac.collection_name = 'ARRIVAL_BOARD'
 ```
 ####Pipelined Function for use in table function
--- Departure board
+- Departure board
 ```language-sql
 SELECT departure.train_name,
        departure.train_type,
@@ -234,7 +234,7 @@ SELECT departure.train_name,
                                                         i_station_id   => 1111111, -- from location service from before
                                                         i_date_time    => NULL)) departure
 ```
--- Arrival board
+- Arrival board
 ```language-sql
 SELECT arrival.train_name,
        arrival.train_type,
@@ -251,7 +251,7 @@ SELECT arrival.train_name,
                                                       i_date_time    => NULL)) arrival
 ```
 
-###Journey detail service                                                      
+###Journey detail service of Fahrplan API                                                      
 ####Plain JSON response
 ```language-sql
 DECLARE
