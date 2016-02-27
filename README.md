@@ -20,7 +20,7 @@
       - [Plain JSON response](#plain-json-response-2)
       - [APEX collections](#apex-collections-2)
       - [Pipelined Function for use in table function](#pipelined-function-for-use-in-table-function-2)
-	- [License](#license)
+  - [License](#license)
 
 #PL/SQL APEX Library for Deutsche Bahn's Timetable / Fahrplan API
 This PL/SQL package is a native wrapper for Oracle Database, especially when combined with Oracle APEX,
