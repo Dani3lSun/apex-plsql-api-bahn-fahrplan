@@ -27,7 +27,7 @@ prompt APPLICATION 250 - APEX Bahn Fahrplan Example
 -- Application Export:
 --   Application:     250
 --   Name:            APEX Bahn Fahrplan Example
---   Date and Time:   18:39 Saturday February 27, 2016
+--   Date and Time:   01:09 Sunday February 28, 2016
 --   Exported By:     DH
 --   Flashback:       0
 --   Export Type:     Application Export
@@ -37,10 +37,10 @@ prompt APPLICATION 250 - APEX Bahn Fahrplan Example
 
 -- Application Statistics:
 --   Pages:                      8
---     Items:                   10
+--     Items:                   12
 --     Processes:                7
---     Regions:                 20
---     Buttons:                  5
+--     Regions:                 22
+--     Buttons:                  7
 --     Dynamic Actions:          2
 --   Shared Components:
 --     Logic:
@@ -114,7 +114,7 @@ wwv_flow_api.create_flow(
 ,p_substitution_string_01=>'F_API_AUTH_KEY'
 ,p_substitution_value_01=>'YOUR_API_KEY'
 ,p_last_updated_by=>'DH'
-,p_last_upd_yyyymmddhh24miss=>'20160227183349'
+,p_last_upd_yyyymmddhh24miss=>'20160228010939'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>32
 ,p_ui_type_name => null
@@ -7942,7 +7942,19 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DH'
-,p_last_upd_yyyymmddhh24miss=>'20160227183309'
+,p_last_upd_yyyymmddhh24miss=>'20160228010715'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(48228768948733823)
+,p_plug_name=>'Filter'
+,p_region_template_options=>'#DEFAULT#:t-Region--noUI:t-Region--scrollBody:t-Form--stretchInputs:t-Form--labelsAbove'
+,p_plug_template=>wwv_flow_api.id(11180535601232931983)
+,p_plug_display_sequence=>10
+,p_include_in_reg_disp_sel_yn=>'N'
+,p_plug_display_point=>'REGION_POSITION_02'
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_attribute_01=>'N'
+,p_attribute_02=>'HTML'
 );
 wwv_flow_api.create_report_region(
  p_id=>wwv_flow_api.id(96337068908434512)
@@ -8244,6 +8256,20 @@ wwv_flow_api.create_page_plug(
 ,p_plug_query_row_template=>1
 );
 wwv_flow_api.create_page_button(
+ p_id=>wwv_flow_api.id(48228984641733825)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_api.id(48228768948733823)
+,p_button_name=>'Search'
+,p_button_action=>'SUBMIT'
+,p_button_template_options=>'#DEFAULT#:t-Button--iconLeft'
+,p_button_template_id=>wwv_flow_api.id(11180556654626932009)
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Search'
+,p_button_position=>'REGION_TEMPLATE_CREATE'
+,p_button_execute_validations=>'N'
+,p_icon_css_classes=>'fa-search'
+);
+wwv_flow_api.create_page_button(
  p_id=>wwv_flow_api.id(96338209757434523)
 ,p_button_sequence=>10
 ,p_button_plug_id=>wwv_flow_api.id(96485192616702962)
@@ -8256,6 +8282,23 @@ wwv_flow_api.create_page_button(
 ,p_button_redirect_url=>'f?p=&APP_ID.:1:&SESSION.::&DEBUG.:::'
 ,p_icon_css_classes=>'fa-angle-left'
 ,p_grid_new_grid=>false
+);
+wwv_flow_api.create_page_item(
+ p_id=>wwv_flow_api.id(48228846730733824)
+,p_name=>'P2_DATE'
+,p_item_sequence=>10
+,p_item_plug_id=>wwv_flow_api.id(48228768948733823)
+,p_prompt=>'Date'
+,p_format_mask=>'DD.MM.YYYY'
+,p_display_as=>'NATIVE_DATE_PICKER'
+,p_cSize=>30
+,p_field_template=>wwv_flow_api.id(11180556076845932006)
+,p_item_template_options=>'#DEFAULT#'
+,p_attribute_02=>'-1m'
+,p_attribute_03=>'+1m'
+,p_attribute_04=>'both'
+,p_attribute_05=>'N'
+,p_attribute_07=>'NONE'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(96337995390434521)
@@ -8276,11 +8319,11 @@ wwv_flow_api.create_page_process(
 '  -- departure board',
 '  bahn_fahrplan_api.get_departure_board_apex(i_api_auth_key => :f_api_auth_key,',
 '                                             i_station_id   => :p2_station_id,',
-'                                             i_date_time    => NULL);',
+'                                             i_date_time    => to_date(:p2_date,''DD.MM.YYYY''));',
 '  -- arrival board',
 '  bahn_fahrplan_api.get_arrival_board_apex(i_api_auth_key => :f_api_auth_key,',
 '                                           i_station_id   => :p2_station_id,',
-'                                           i_date_time    => NULL);',
+'                                           i_date_time    => to_date(:p2_date,''DD.MM.YYYY''));',
 'END;'))
 ,p_error_display_location=>'INLINE_IN_NOTIFICATION'
 );
@@ -8293,7 +8336,7 @@ wwv_flow_api.create_page(
 ,p_user_interface_id=>wwv_flow_api.id(11180561729716932019)
 ,p_name=>'APEX Collection Journey Details'
 ,p_page_mode=>'MODAL'
-,p_step_title=>'APEX Collection Journey Details'
+,p_step_title=>'Journey Details'
 ,p_step_sub_title_type=>'TEXT_WITH_SUBSTITUTIONS'
 ,p_first_item=>'NO_FIRST_ITEM'
 ,p_page_template_options=>'#DEFAULT#'
@@ -8306,7 +8349,7 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DH'
-,p_last_upd_yyyymmddhh24miss=>'20160227140815'
+,p_last_upd_yyyymmddhh24miss=>'20160228010939'
 );
 wwv_flow_api.create_report_region(
  p_id=>wwv_flow_api.id(96339418187434535)
@@ -8728,7 +8771,20 @@ wwv_flow_api.create_page(
 ,p_cache_mode=>'NOCACHE'
 ,p_help_text=>'No help is available for this page.'
 ,p_last_updated_by=>'DH'
-,p_last_upd_yyyymmddhh24miss=>'20160227183349'
+,p_last_upd_yyyymmddhh24miss=>'20160228010757'
+);
+wwv_flow_api.create_page_plug(
+ p_id=>wwv_flow_api.id(48318212607788457)
+,p_plug_name=>'Filter'
+,p_region_template_options=>'#DEFAULT#:t-Region--noUI:t-Region--scrollBody:t-Form--stretchInputs:t-Form--labelsAbove'
+,p_plug_template=>wwv_flow_api.id(11180535601232931983)
+,p_plug_display_sequence=>40
+,p_include_in_reg_disp_sel_yn=>'N'
+,p_plug_display_point=>'REGION_POSITION_02'
+,p_plug_query_row_template=>1
+,p_plug_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_attribute_01=>'N'
+,p_attribute_02=>'HTML'
 );
 wwv_flow_api.create_page_plug(
  p_id=>wwv_flow_api.id(96522534276962603)
@@ -8767,7 +8823,7 @@ wwv_flow_api.create_report_region(
 '             ''http:'') AS journeydetailref',
 '  FROM TABLE(bahn_fahrplan_api.get_departure_board_pipe(i_api_auth_key => :f_api_auth_key,',
 '                                                        i_station_id   => :p6_station_id,',
-'                                                        i_date_time    => NULL)) departure'))
+'                                                        i_date_time    => to_date(:p6_date,''DD.MM.YYYY''))) departure'))
 ,p_source_type=>'NATIVE_SQL_REPORT'
 ,p_ajax_enabled=>'Y'
 ,p_query_row_template=>wwv_flow_api.id(11180544355568931991)
@@ -8918,7 +8974,7 @@ wwv_flow_api.create_report_region(
 '             ''http:'') AS journeydetailref',
 '  FROM TABLE(bahn_fahrplan_api.get_arrival_board_pipe(i_api_auth_key => :f_api_auth_key,',
 '                                                        i_station_id   => :p6_station_id,',
-'                                                        i_date_time    => NULL)) arrival'))
+'                                                        i_date_time    => to_date(:p6_date,''DD.MM.YYYY''))) arrival'))
 ,p_source_type=>'NATIVE_SQL_REPORT'
 ,p_ajax_enabled=>'Y'
 ,p_query_row_template=>wwv_flow_api.id(11180544355568931991)
@@ -9034,6 +9090,20 @@ wwv_flow_api.create_report_columns(
 ,p_derived_column=>'N'
 );
 wwv_flow_api.create_page_button(
+ p_id=>wwv_flow_api.id(48318578358788457)
+,p_button_sequence=>10
+,p_button_plug_id=>wwv_flow_api.id(48318212607788457)
+,p_button_name=>'Search'
+,p_button_action=>'SUBMIT'
+,p_button_template_options=>'#DEFAULT#:t-Button--iconLeft'
+,p_button_template_id=>wwv_flow_api.id(11180556654626932009)
+,p_button_is_hot=>'Y'
+,p_button_image_alt=>'Search'
+,p_button_position=>'REGION_TEMPLATE_CREATE'
+,p_button_execute_validations=>'N'
+,p_icon_css_classes=>'fa-search'
+);
+wwv_flow_api.create_page_button(
  p_id=>wwv_flow_api.id(96527253486962606)
 ,p_button_sequence=>10
 ,p_button_plug_id=>wwv_flow_api.id(96526867026962606)
@@ -9046,6 +9116,23 @@ wwv_flow_api.create_page_button(
 ,p_button_redirect_url=>'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:::'
 ,p_icon_css_classes=>'fa-angle-left'
 ,p_grid_new_grid=>false
+);
+wwv_flow_api.create_page_item(
+ p_id=>wwv_flow_api.id(48318950106788457)
+,p_name=>'P6_DATE'
+,p_item_sequence=>10
+,p_item_plug_id=>wwv_flow_api.id(48318212607788457)
+,p_prompt=>'Date'
+,p_format_mask=>'DD.MM.YYYY'
+,p_display_as=>'NATIVE_DATE_PICKER'
+,p_cSize=>30
+,p_field_template=>wwv_flow_api.id(11180556076845932006)
+,p_item_template_options=>'#DEFAULT#'
+,p_attribute_02=>'-1m'
+,p_attribute_03=>'+1m'
+,p_attribute_04=>'both'
+,p_attribute_05=>'N'
+,p_attribute_07=>'NONE'
 );
 wwv_flow_api.create_page_item(
  p_id=>wwv_flow_api.id(96522902788962603)
