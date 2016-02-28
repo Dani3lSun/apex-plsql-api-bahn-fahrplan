@@ -109,6 +109,8 @@ Connect to your database and compile the package spec and body (bahn_fahrplan_ap
 
 ##Usage
 ###Location Service of Fahrplan API
+The location.name service can be used to perform a pattern matching of a user input and to retrieve a list of possible matches in the journey planner database. Possible matches might be stops/stations, points of interest and addresses.
+
 ####Plain JSON response
 ```language-sql
 DECLARE
@@ -179,6 +181,8 @@ SELECT locations.loc_name,
 ```
 
 ###Stationboard services (Departure & Arrival Board) of Fahrplan API
+Retrieves the station board for the given station. This method will return the next 20 departures/arrivals (or less if not existing) from a given point in time. The service can only be called for stops/stations by using according ID retrieved by the location.name method.
+
 ####Plain JSON response
 ```language-sql
 DECLARE
@@ -279,7 +283,9 @@ SELECT arrival.train_name,
                                                       i_date_time    => NULL)) arrival
 ```
 
-###Journey detail service of Fahrplan API                                                      
+###Journey detail service of Fahrplan API  
+Delivers information about the complete route of a vehicle. This service can't be called directly but only by reference URLs in a result of a departureBoard/arrivalBoard request. It contains a list of all stops/stations of this journey including all departure and arrival times (with realtime data if available / not supported right now) and additional information like specific attributes about facilities and other texts.
+
 ####Plain JSON response
 ```language-sql
 DECLARE
