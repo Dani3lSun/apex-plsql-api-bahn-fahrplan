@@ -53,34 +53,34 @@ All web service requests have as base domain "open-api.bahn.de". For that you ne
 
 ```language-sql
 DECLARE
-
+  --
   l_filename VARCHAR2(30) := 'open-api.bahn.de.xml';
   l_schema   VARCHAR2(20) := '<SCHEMA>';
-
+  --
 BEGIN
-
+  --
   BEGIN
     dbms_network_acl_admin.drop_acl(acl => l_filename);
-
   EXCEPTION
     WHEN OTHERS THEN
       NULL;
   END;
-
+  --
   dbms_network_acl_admin.create_acl(acl         => l_filename,
                                     description => 'All requests to open-api.bahn.de',
                                     principal   => l_schema,
                                     is_grant    => TRUE,
                                     privilege   => 'connect');
-
+  --
   dbms_network_acl_admin.add_privilege(acl       => l_filename,
                                        principal => l_schema,
                                        is_grant  => TRUE,
                                        privilege => 'resolve');
-
+  --
   dbms_network_acl_admin.assign_acl(acl        => l_filename,
                                     host       => 'open-api.bahn.de',
                                     lower_port => 443);
+  --
   dbms_network_acl_admin.assign_acl(acl        => l_filename,
                                     host       => 'open-api.bahn.de',
                                     lower_port => 80);
