@@ -1,11 +1,11 @@
 **Table of Contents**
 
 - [PL/SQL APEX Library for Deutsche Bahn's Timetable / Fahrplan API](#plsql-apex-library-for-deutsche-bahns-timetable--fahrplan-api)
-	- [Demo](#demo)
-	- [Changelog](#changelog)
-	- [Installation](#installation)
-		- [Database ACL](#database-acl)
-		- [Oracle SSL Wallet](#oracle-ssl-wallet)
+  - [Demo](#demo)
+  - [Changelog](#changelog)
+  - [Installation](#installation)
+    - [Database ACL](#database-acl)
+    - [Oracle SSL Wallet](#oracle-ssl-wallet)
     - [Compile the PL/SQL package](#compile-the-plsql-package)
   - [Usage](#usage)
     - [Location Service of Fahrplan API](#location-service-of-fahrplan-api)
