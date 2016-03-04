@@ -9,13 +9,13 @@ CREATE OR REPLACE PACKAGE bahn_fahrplan_api IS
   --
   pub_fahrplan_host       VARCHAR2(50) := 'open-api.bahn.de';
   pub_fahrplan_rest_path  VARCHAR2(100) := '/bin/rest.exe';
-  pub_fahrplan_rest_proto VARCHAR2(50) := 'http'; -- http or https
+  pub_fahrplan_rest_proto VARCHAR2(50) := 'https'; -- http or https
   pub_fahrplan_base_url   VARCHAR2(200) := bahn_fahrplan_api.pub_fahrplan_rest_proto ||
                                            '://' ||
                                            bahn_fahrplan_api.pub_fahrplan_host ||
                                            bahn_fahrplan_api.pub_fahrplan_rest_path;
-  pub_ssl_wallet_path     VARCHAR2(200) := 'file:/path/to/wallet';
-  pub_ssl_wallet_pwd      VARCHAR2(100) := 'walletpwd';
+  pub_ssl_wallet_path     VARCHAR2(200) := 'file:/home/oracle/bahn_openapi_wallet'; -- set your local wallet path
+  pub_ssl_wallet_pwd      VARCHAR2(100) := 'bahn2016'; -- set your wallet password
   --
   -- Exceptions Error Codes
   --

@@ -39,7 +39,7 @@ The package include all web service functions which are included in the Fahrplan
 A demo application is available under
 https://apex.danielh.de/ords/f?p=BAHN_FAHRPLAN
 
-And of course you find a APEX export of it in "demo" folder. To use it just import the app and then go through the I+installation steps below.
+And of course you find a APEX export of it in [../demo/](https://github.com/Dani3lSun/apex-plsql-api-bahn-fahrplan/tree/master/demo) folder. To use it just import the app and then go through the I+installation steps below.
 Under Shared Components --> Edit Application Definition --> Substitutions Strings, set "F_API_AUTH_KEY" to your API Key which you get from Deutsche Bahn.
 
 
@@ -92,22 +92,25 @@ END;
 ###Oracle SSL Wallet
 To communicate with the Deutsche Bahn Fahrplan API (open-api.bahn.de) over HTTPS, a SSL Wallet is needed for database which contains the certificates from open-api.bahn.de.
 
-**As of time writing this the Fahrplan API is only available unencrypted over HTTP, but this will change an monday 2016-02-29. Then I will include a ready to go wallet here on Github.**
-
 For manually creating the wallet, either use Oracle Wallet Manager or create the wallet with openssl utils like:
 - Grab the certificates from open-api.bahn.de via your browser
 - Create the wallet on command line
+
 ```shell
-openssl pkcs12 -export -in open-api.bahn.de.cert -out ewallet.p12 -nokey
+openssl pkcs12 -export -in open-api.bahn.de.cert -out ewallet.p12 -nokeys
 ```
+
 - Place the wallet file on your database server
 - Change the wallet path and password in the package specification under "Fahrplan REST API defaults"
+
+**A ready to go wallet is included under [../wallet/](https://github.com/Dani3lSun/apex-plsql-api-bahn-fahrplan/tree/master/wallet). The certificate included is valid until 2017-02-25.**
 
 ###Compile the PL/SQL package
 Connect to your database and compile the package spec and body (bahn_fahrplan_api.pks & bahn_fahrplan_api.pkb)
 
 
 ##Usage
+
 ###Location Service of Fahrplan API
 The location.name service can be used to perform a pattern matching of a user input and to retrieve a list of possible matches in the journey planner database. Possible matches might be stops/stations, points of interest and addresses.
 
@@ -121,6 +124,7 @@ BEGIN
                                                               i_search_string => 'Regensburg');
 END;
 ```
+
 ####APEX collections
 - Get stations
 ```language-sql
@@ -140,6 +144,7 @@ SELECT ac.c001 AS station_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'STATIONS'
 ```
+
 - Get other relevant locations
 ```language-sql
 -- create collection
@@ -158,6 +163,7 @@ SELECT ac.c001 AS loc_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'LOCATIONS'
  ```
+
 ####Pipelined Function for use in table function
 - Get stations
 ```language-sql
@@ -169,6 +175,7 @@ SELECT stations.station_name,
                                                           i_language      => 'en', -- default en
                                                           i_search_string => 'Regensburg')) stations
 ```
+
 - Get other relevant locations
 ```language-sql
 SELECT locations.loc_name,
@@ -200,6 +207,7 @@ BEGIN
                                                               i_date_time    => NULL); -- valid date with or without time
 END;
 ```
+
 ####APEX collections
 - Departure board
 ```language-sql
@@ -225,6 +233,7 @@ SELECT ac.c001 AS train_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'DEPARTURE_BOARD'
 ```
+
 - Arrival board
 ```language-sql
 -- create collection
@@ -249,6 +258,7 @@ SELECT ac.c001 AS train_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'ARRIVAL_BOARD'
 ```
+
 ####Pipelined Function for use in table function
 - Departure board
 ```language-sql
@@ -266,6 +276,7 @@ SELECT departure.train_name,
                                                         i_station_id   => 1111111, -- from location service from before
                                                         i_date_time    => NULL)) departure
 ```
+
 - Arrival board
 ```language-sql
 SELECT arrival.train_name,
@@ -294,6 +305,7 @@ BEGIN
   l_response_json := bahn_fahrplan_api.get_journey_detail_json(i_journeydetailref_url => 'http://open-api.bahn.de/....'); -- journeydetailref from departure / arrival response
 END;
 ```
+
 ####APEX collections
 ```language-sql
 -- create collection
@@ -315,6 +327,7 @@ SELECT ac.c001 AS station_name,
   FROM apex_collections ac
  WHERE ac.collection_name = 'JOURNEY_DETAIL'
 ```
+
 ####Pipelined Function for use in table function
 ```language-sql
 SELECT journey.station_name,
